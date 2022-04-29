@@ -1,23 +1,66 @@
-import logo from './logo.svg';
 import './App.css';
+import {useMoralis} from 'react-moralis'
+import {useEffect, useState} from 'react'
+import { Button } from 'react-bootstrap';
+import Navbar from './Navbar';
+import Home from './Home';
+import {BrowserRouter as Router, Route, Switch} from 'react-router-dom'
+import Pay from './Pay';
+import Search from './Search';
 
 function App() {
+  const { Moralis, authenticate, isAuthenticated, user, logout } = useMoralis();
+  const [addr, setAddr] = useState('0');
+  const [accounts, setAccounts] = useState(null);
+  const [friends, setFriends] = useState(null);
+  
+  const getAccounts = function(){
+    fetch('http://localhost:8000/users')
+    .then(res=>res.json())
+    .then(data=>setAccounts(data))
+  }
+  const getFriends = function(){
+    fetch('http://localhost:8000/address_book?='+addr)
+    .then(res=>res.json())
+    .then(data=>setFriends(data[0].friends))
+  }  
+  useEffect(()=>{
+    getAccounts();
+    if(user!=null){
+      setAddr(user.get('ethAddress'));
+    }
+    getFriends()
+  },[])
+  if(!isAuthenticated){
+    return(
+      <div className='App'>
+        <img src="http://127.0.0.1:8080/Desktop/logo/default.png" alt="" className='main'/>
+        <br />
+        <h3>Click below to Login</h3>
+        <button onClick={()=>{authenticate({signingMessage:"Welcome to PayApp"})}}>Login</button>
+      </div>
+    );
+  }
+  
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className='App'>
+      <div className="container">
+      <Router>
+        <Navbar addr={user.get('ethAddress')} />
+        <Switch>
+          <Route exact path='/'>
+            <Home  addr={user.get('ethAddress')}/>
+          </Route>
+          <Route path={'/pay/:'+user.getaddress}>
+            <Pay friends = {friends}/>
+          </Route>
+          <Route path={'/search'}>
+            <Search accounts={accounts}/>
+          </Route>
+        </Switch>
+      </Router>
+      </div>
+      <button onClick={()=>{logout()}}>Log out</button>
     </div>
   );
 }

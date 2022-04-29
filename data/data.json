@@ -1,0 +1,23 @@
+{
+    "users": 
+    [
+        {   
+            "addr" : "0x0980bc9d5bCa1Fca282dd2A91aF908fD3950B894",
+            "user_id" : "kabhis2002",
+            "friends" : [
+                "0xBA893B629Cd37b9FB67e24794062560eD19f5b22",
+                "0xC507C17AC6e8B70F8ccBCe36E9e034509AcA90e0"
+            ],
+            "id" : 1
+        }, 
+        {
+            "addr" : "0xC507C17AC6e8B70F8ccBCe36E9e034509AcA90e0",
+            "user_id" : "kmore123",
+            "friends" : [
+                "0xBA893B629Cd37b9FB67e24794062560eD19f5b22"
+            ],
+            "id" : 2
+
+        }
+    ]
+}
