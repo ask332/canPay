@@ -19,6 +19,7 @@ const Pay = (props) => {
                  <div className="users" >
                     <h3>{friend}</h3>
                     <button>Pay</button>
+
                  </div>
               )
            })

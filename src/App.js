@@ -4,6 +4,7 @@ import {useEffect, useState} from 'react'
 import { Button } from 'react-bootstrap';
 import Navbar from './Navbar';
 import Home from './Home';
+import Console from './Console'
 import {BrowserRouter as Router, Route, Switch} from 'react-router-dom'
 import Pay from './Pay';
 import Search from './Search';
@@ -34,7 +35,7 @@ function App() {
   if(!isAuthenticated){
     return(
       <div className='App'>
-        <img src="http://127.0.0.1:8080/Desktop/logo/default.png" alt="" className='main'/>
+        <img src="http://127.0.0.1:8080/Desktop/mini_project_trials/trial1/logo/default.png" alt="" className='main'/>
         <br />
         <h3>Click below to Login</h3>
         <button onClick={()=>{authenticate({signingMessage:"Welcome to PayApp"})}}>Login</button>
@@ -56,6 +57,9 @@ function App() {
           </Route>
           <Route path={'/search'}>
             <Search accounts={accounts}/>
+          </Route>
+          <Route path={'/console'}>
+            <Console Moralis={Moralis} />
           </Route>
         </Switch>
       </Router>
